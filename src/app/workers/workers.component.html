@@ -1,0 +1,135 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Imię</th>
+      <th>Nazwisko</th>
+      <th>Zadania</th>
+      <th>Szczegóły</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let index of daneTestowe; index as i">
+      <td>{{ i }}</td>
+      <td>{{ daneTestowe[i].firstName }}</td>
+      <td>{{ daneTestowe[i].lastName }}</td>
+      <td>
+        [{{ daneTestowe[i].zadaniaZakonczone }}/{{
+          daneTestowe[i].zadania.length
+        }}]
+      </td>
+      <td>
+        <button
+          class="btn btn-info"
+          (click)="openDialogWithTemplateRef(zadania, daneTestowe[i])"
+        >
+          zadania</button
+        >&nbsp;
+        <button id="button2" class="btn btn-danger" (click)="deleteWorker(i)">
+          usuń
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!-- zadania -->
+<ng-template #zadania>
+  <div id="div1">
+    <div id="div2">
+      {{ daneTestoweIndex.firstName }} {{ daneTestoweIndex.lastName }} - zadania
+      &nbsp;<button id="button3" class="btn btn-danger" (click)="deleteTasks()">usuń zaznaczone</button>
+    </div>
+    <table style="width:100%;">
+      <div id="div3" *ngFor="let index of daneTestoweIndex.zadania; index as i">
+        Treść zadania:
+        <form #doUsuniecia>
+          <input
+            class="checkbox"
+            type="checkbox"
+            (change)="checkChange($event, i)"
+          />
+        </form>
+
+        <button id="button4" (click)="openDialogWithTemplateRef(przeniesZadanieTemplate, daneTestoweIndex,daneTestoweIndex.zadania[i])"> przenieś </button>
+
+        {{ daneTestoweIndex.zadania[i].tresc }}<br /><br />
+        Status: {{ daneTestoweIndex.zadania[i].status }}
+        <form #daneTekstoweIndexForm="ngForm">
+          <select
+            ngModel
+            #WyborStatusu="ngModel"
+            name="status"
+            (click)="
+              zmienStatus(WyborStatusu.value, daneTestoweIndex.zadania[i])
+            "
+          >
+            <option value="W toku">W toku</option>
+            <option value="Zakonczone">Zakonczone</option>
+          </select>
+        </form>
+      </div>
+    </table>
+    <button
+      id="button1"
+      class="btn btn-danger"
+      (click)="openDialogWithTemplateRef(dodajZadanie, daneTestoweIndex)"
+    >
+      Dodaj zadanie
+    </button>
+  </div>
+</ng-template>
+<!-- dodaj zadanie -->
+<ng-template #dodajZadanie>
+  <div id="div4">
+    <label>Treść zadania:</label>
+    <form #dodajZadanieForm>
+      <textarea #value name="trescZadania" cols="30" rows="5"></textarea>
+      <input
+        type="submit"
+        class="btn btn-success"
+        (click)="
+          dodajZadanieFunction(value.value);
+          openDialogWithTemplateRef(zadania, daneTestoweIndex)
+        "
+        value="Dodaj"
+      />
+      <span> &nbsp; </span>
+      <input
+        id="button3"
+        type="button"
+        class="btn btn-danger"
+        (click)="
+          this.dialog.closeAll();
+          openDialogWithTemplateRef(zadania, daneTestoweIndex)
+        "
+        value="Anuluj"
+      />
+    </form>
+  </div>
+</ng-template>
+<!-- przenies zadanie -->
+<ng-template #przeniesZadanieTemplate>
+  <div id="div5">
+<input class="form-control" type="text" placeholder="wyszukaj" [(ngModel)]="searchText" (keydown)="searchFunction()">
+<table class="table table-hover">
+<label for="lista">Wyniki wyszukiwania:</label>
+<tbody>
+<tr id="tr{{j}}" *ngFor="let i of searchWorker | search: searchText; index as j">
+  <td>{{i.firstName}} {{i.lastName}}</td>
+  <td><button class="btn btn-select" (click)="selectWorker(i);ChangeColor(j)">Wybierz</button></td>
+</tr>
+</tbody>
+</table>
+Wybrano Pracownika: {{selectedWorkerName}} {{selectedWorkerLastName}}<br>
+zadanie: {{zadanieIndex.tresc}}
+<form>
+  <label>Nowy status zadania&nbsp;</label>
+<select #nowyStatus name="status">
+<option value="W toku">W toku</option>
+<option value="Zakonczone">Zakonczone</option>
+</select>
+</form>
+<br><br>
+<button class="btn btn-success" (click)="przeniesZadanie(zadanieIndex.tresc, nowyStatus.value)">Zatwierdź przeniesienie</button>
+</div>
+</ng-template>

@@ -1,0 +1,32 @@
+#button1{
+   position: fixed;
+   bottom: 5%;
+   right: 5%;
+   background-color: red;
+   
+}
+#button2{
+  width:40%;
+}
+#div1{
+  width: 300px;
+  height: 200px;
+  padding: 10px;
+  border: 2px black solid;
+  border-radius: 0;
+}
+.text{
+  border: 0;
+  background-color:burlywood;
+  text-decoration: none;
+  float: right;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  height: 20px;
+}
+.text1{
+  border: 0;
+  text-decoration: none;
+  margin-right: 5px;
+  margin-bottom: 15px;
+}

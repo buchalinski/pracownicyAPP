@@ -1,0 +1,60 @@
+<button
+  id="button1"
+  class="btn btn-danger"
+  (click)="openDialogWithTemplateRef(nowy)"
+>
+  Dodaj pracownika
+</button>
+
+<ng-template #nowy>
+  <div id="div1">
+    <form #dodajPracownikaForm="ngForm" (ngSubmit)="submit(dodajPracownikaForm.value)">
+      <div class="text1">
+        <b>Imię: </b
+        ><input
+          required
+          #imie="ngModel"
+          class="text"
+          type="text"
+          placeholder="Imie"
+          name="imie"
+          id="imie"
+          ngModel
+          pattern="[a-zA-Z]*"
+          minlength="3"
+        />
+      </div>
+      <br />
+
+      <div class="text1">
+        <b>Nazwisko: </b
+        ><input
+          required
+          #nazwisko="ngModel"
+          class="text"
+          type="text"
+          placeholder="Nazwisko"
+          name="nazwisko"
+          id="nazwisko"
+          ngModel
+          pattern="[a-zA-Z]*"
+          minlength="3"
+        />
+      </div>
+      <br />
+      <input
+      class="btn btn-danger"
+      type="button"
+      value="Anuluj"
+      (click)="close()"
+    />
+    <span> &nbsp; </span>
+      <input
+        class="btn btn-success"
+        type="submit"
+        value="Dodaj"
+        [disabled]="!dodajPracownikaForm.valid"
+      />
+    </form>
+  </div>
+</ng-template>
